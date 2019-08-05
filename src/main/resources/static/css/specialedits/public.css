@@ -1,0 +1,90 @@
+body {
+	margin: 0px 0px;
+	padding:0px 0px;
+	text-align: left;
+	font-family:"宋体";
+	font-size:12px
+}
+img {
+ 	border:0px;
+}
+span {
+    color: #0F42A6;
+    font-weight: bold;
+    left: 8px;
+    position: relative;
+    top: 2px;
+}
+A {
+	TEXT-DECORATION: none;
+	color:#000000
+}
+A:hover {
+	COLOR: #FF0000
+}
+ul {padding:5px;margin:0px;}
+ul li {
+	list-style-type:none;
+	height:15px;
+	line-height:15px;
+	clear:both;
+	margin-bottom:5px;
+	cursor:pointer
+}
+.input {
+	border: 1px solid #999999;
+    height: 20px;
+	line-height: 20px;
+	width:150px;
+}
+#nav {
+	background-color:#539ce5;
+	margin-bottom:5px;
+	height:23px;
+	line-height:23px;
+	font-weight:bold;
+	color:#FFFFFF
+}
+.hide {display:none}
+.button {
+    BORDER: #7b9ebd 1px solid;
+	PADDING-RIGHT: 2px; 
+	PADDING-LEFT: 2px; 
+	PADDING-TOP: 2px;
+	FONT-SIZE: 9pt; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,
+StartColorStr=#ffffff, EndColorStr=#cecfde); 
+	background: -moz-linear-gradient(top, #ffffff, #cecfde); 
+	CURSOR: pointer; 
+	COLOR: black; 
+}
+.maintable {
+    background-color: #F9F9F9;
+    border-collapse: collapse;
+	text-align:center;
+    width: 100%;
+}
+.maintable td{ border: 1px solid #FFFFFF;height:20px;line-height:20px}
+.maintable a {
+	color: #0F42A6;
+}
+.STYLE1 {color: #FF0000}
+.bottom {position:absolute; width:100%; height:100%; left:0px; top:0px; background-color:#CCCCCC; z-index:1; text-align:center;
+		/* FireFox 专用样式*/
+		opacity:0.2;
+		/* IE 专用样式*/
+		filter: Alpha(Opacity=20);
+}
+.alert {background-color:#FFFFFF; position:absolute; border:solid 7px #B4B4B4; color:black; left:30%; top:30%; width:280px; height:140px; z-index:2;}
+.alert div{text-align:center; margin-top:20%; line-height:100%; font-weight:bold; font-size:25px;}
+.alert input{float:right; margin-right:18%; margin-top:3%;BORDER: #7b9ebd 1px solid; PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-TOP: 		2px; FONT-SIZE: 9pt; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#ffffff,	EndColorStr=#cecfde);background: -moz-linear-gradient(top, #ffffff, #cecfde); CURSOR: pointer; COLOR: black; width:45px; height:20px;}
+.alertUp{z-index:3; position:absolute; line-height:30px; left:30%; top:30%; width:280px;}
+.alertUp div{line-height:30px; position:absolute; font-weight:bold; font-size:12px; left:7px; top:7px; width:280px;
+		/*IE*/
+		filter:progid:DXImageTransform.microsoft.gradient(gradienttype=0,startColorStr=#F9F9F9,endColorStr=#CACAC4); 
+		/*FireFox*/
+		background:-moz-linear-gradient(#F9F9F9,#CACAC4);}
+.alertUp a{float:right; margin-right:8px; margin-top:7px; width:15px; height:15px;}
+.alertUp a img{border:0px;}
+
+#edit_area{position:absolute;left:110px;top:110px;width:1280px; height:720px;}

@@ -1,0 +1,30 @@
+body{font-size:12px;}
+#selectContent{background:#FFF;position:absolute;top:20px;left:300px;border:1px solid #000;width:640px;height:555px;z-index:10;}
+#selectTools{background:#FFF;position:absolute;top:20px;left:50px;border:1px solid #000;width:250px;height:555px;z-index:10;}
+.selectItemtit{line-height:25px;height:25px;margin:1px;padding-left:12px;}
+.bgc_ccc{background:#E88E22;}
+.selectItemleft{float:left;margin:0px;padding:0px;font-size:15px;font-weight:bold;color:#fff;}
+.selectItemright{float:right;margin:0px 10px;cursor:pointer;color:#fff;text-align:right;font-size:15px;font-weight:bold;}
+.selectItemhidden{display:none;}
+#selectItemCount{background:#FFF;position:absolute;width:250px;height:528px;}
+.selectSub{padding:10px 10px 80px 120px;}
+/*#file1,#file2,#file3{float:right;}*/
+div.btn{position:absolute;left:10px;font-size:13px;font-weight:bold;}
+img.deletePic{position:absolute;left:50px;width:50px;height:50px;cursor:pointer;padding-top:5px;}
+img.addPic{position:absolute;left:150px;width:50px;height:50px;cursor:pointer;padding-top:5px;}
+
+.drag{position:absolute;left:250px;width:110px;height:60px;border:2px solid red;border-radius:5px;box-shadow:0 1px 3px 2px #666;z-index:20;display:none;cursor:move;}
+.drag .resizeBR{position:absolute;width:14px;height:14px;right:0;bottom:0;overflow:hidden;cursor:nw-resize;background:url(images/resize.png) no-repeat;}
+.drag .resizeL,.drag .resizeT,.drag .resizeR,.drag .resizeB,.drag .resizeLT,.drag .resizeTR,.drag .resizeLB{position:absolute;background:#000;overflow:hidden;opacity:0;filter:alpha(opacity=0);}
+.drag .resizeL,.drag .resizeR{top:0;width:5px;height:100%;cursor:w-resize;}
+.drag .resizeR{right:0;}
+.drag .resizeT,.drag .resizeB{width:100%;height:5px;cursor:n-resize;}
+.drag .resizeT{top:0;}
+.drag .resizeB{bottom:0;}
+.drag .resizeLT,.drag .resizeTR,.drag .resizeLB{width:8px;height:8px;background:#FF0;}
+.drag .resizeLT{top:0;left:0;cursor:nw-resize;}
+.drag .resizeTR{top:0;right:0;cursor:ne-resize;}
+.drag .resizeLB{left:0;bottom:0;cursor:ne-resize;}
+.p_text{width:50px;}
+
+#bg{background-color:#000;position:absolute;left:0px;top:0px;opacity:0.5;filter:alpha(opacity=50);height:800px;}

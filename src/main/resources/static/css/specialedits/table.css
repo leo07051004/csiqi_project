@@ -1,0 +1,21 @@
+.quanxian_content {
+	width:99%;
+	border:1px solid #B4B4B4;
+	margin-top:5px;
+	background-color:#F9F9F9;
+}
+.quanxian_title {
+	width:100%;
+	background-color:#EEEEEE;
+	height:25px;
+}
+.quanxian_title_name {
+	float:left;
+	margin-left:10px;
+	line-height:25px;
+	font-weight:bold;
+}
+.quanxian_body {
+	margin-left:2px;
+	margin-top:2px;
+}
