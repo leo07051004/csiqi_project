@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csiqi.dao.webDao.AcDao" >
+    <sql id="BASE_TABLE">
+        ac_admin
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        f_ac_id,f_ac_adminid,f_ac_usernum,f_ac_name,f_ac_desc,f_ac_stats,f_ac_keys,f_ac_applyendtime,f_ac_begintime,f_ac_endtime,f_ac_address
+    </sql>
+
+
+    <select id="acList" resultType="com.csiqi.model.webVo.AcAdminVo">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM
+        <include refid="BASE_TABLE"/>
+    </select>
+</mapper>
