@@ -8,5 +8,5 @@ import java.util.List;
 public interface AcDao {
 
     List<AcAdminVo> acList();
-
+    int acAdd(AcAdminVo av);
 }

@@ -1,11 +1,15 @@
 package com.csiqi.controller.webApi;
 
 import com.csiqi.model.webVo.AcAdminVo;
+import com.csiqi.utils.ResultFactory;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -26,5 +30,21 @@ public class AcController {
         PageInfo<AcAdminVo> Vos=acService.acList(pageNum,pageSize);
         mv.addObject("acList",Vos);
         return Vos;
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping("/acAdd")
+    public Object acAdd(@Valid @RequestBody AcAdminVo av, BindingResult bindingResult){
+        int Vos=acService.acAdd(av);
+        if (bindingResult.hasErrors()) {
+            String message = String.format("活动新增失败。", bindingResult.getFieldError().getDefaultMessage());
+            return ResultFactory.buildFailResult(message);
+        }
+        if (Vos<=0) {
+            String message = String.format("活动新增失败。");
+            return ResultFactory.buildFailResult(message);
+        }
+        return ResultFactory.buildSuccessResult("活动新增成功。");
     }
 }

@@ -3,6 +3,7 @@ package com.csiqi.model.webVo;
 public class AcAdminVo {
     private int f_ac_id;
     private int f_ac_adminid;
+    private String f_ac_adminName;
     private int f_ac_usernum;
 
     private  String  f_ac_name;
@@ -14,7 +15,10 @@ public class AcAdminVo {
     private String f_ac_begintime;
     private String f_ac_endtime;
     private String f_ac_udate;
-    private String  f_ac_address;
+    private String f_ac_address;
+    private String  date1;
+    private String  date2;
+    private String  date3;
 
     public int getF_ac_id() {
         return f_ac_id;
@@ -118,5 +122,37 @@ public class AcAdminVo {
 
     public void setF_ac_address(String f_ac_address) {
         this.f_ac_address = f_ac_address;
+    }
+
+    public String getDate1() {
+        return date1;
+    }
+
+    public void setDate1(String date1) {
+        this.date1 = date1;
+    }
+
+    public String getDate2() {
+        return date2;
+    }
+
+    public void setDate2(String date2) {
+        this.date2 = date2;
+    }
+
+    public String getDate3() {
+        return date3;
+    }
+
+    public void setDate3(String date3) {
+        this.date3 = date3;
+    }
+
+    public String getF_ac_adminName() {
+        return f_ac_adminName;
+    }
+
+    public void setF_ac_adminName(String f_ac_adminName) {
+        this.f_ac_adminName = f_ac_adminName;
     }
 }
