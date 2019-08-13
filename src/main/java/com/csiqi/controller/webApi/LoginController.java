@@ -3,13 +3,17 @@ package com.csiqi.controller.webApi;
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
 import com.csiqi.utils.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import  com.csiqi.utils.ResultFactory;
-import javax.validation.Valid;
-import java.util.Objects;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+@Slf4j
 @RestController
 public class LoginController {
     /**
@@ -22,7 +26,9 @@ public class LoginController {
     @CrossOrigin
     @RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult) {
+    public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,ServletRequest servletRequest) {
+        HttpServletRequest req = ((HttpServletRequest)servletRequest);
+        HttpSession session=req.getSession();
         if (bindingResult.hasErrors()) {
             String message = String.format("登陆失败，详细信息[%s]。", bindingResult.getFieldError().getDefaultMessage());
             return ResultFactory.buildFailResult(message);
@@ -31,6 +37,8 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
             return ResultFactory.buildFailResult(message);
         }
+        session.setAttribute("loginId",loginInfoVo.getUsername());
+        log.debug("/api/login:loginId="+session.getAttribute("loginId"));
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 }
