@@ -2,6 +2,7 @@ package com.csiqi.controller.webApi;
 
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
+import com.csiqi.utils.CookieUtil;
 import com.csiqi.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import  com.csiqi.utils.ResultFactory;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 @Slf4j
@@ -23,12 +26,11 @@ public class LoginController {
      */
     @Autowired
     private  UserService userService;
-    @CrossOrigin
+    @CrossOrigin(origins = "http://127.0.0.1:8080", maxAge = 3600)//allowCredentials = "true", allowedHeaders = "*"
     @RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,ServletRequest servletRequest) {
-        HttpServletRequest req = ((HttpServletRequest)servletRequest);
-        HttpSession session=req.getSession();
+    public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,HttpServletRequest request,HttpServletResponse response) {
+        HttpSession session=request.getSession();
         if (bindingResult.hasErrors()) {
             String message = String.format("登陆失败，详细信息[%s]。", bindingResult.getFieldError().getDefaultMessage());
             return ResultFactory.buildFailResult(message);
@@ -37,8 +39,9 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
             return ResultFactory.buildFailResult(message);
         }
-        session.setAttribute("loginId",loginInfoVo.getUsername());
-        log.debug("/api/login:loginId="+session.getAttribute("loginId"));
+        session.setAttribute("csiqiLoginFlag",loginInfoVo.getUsername());
+        log.debug("loginFlag:"+session.getAttribute("csiqiLoginFlag"));
+        //CookieUtil.setCookie(request,response);
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 }

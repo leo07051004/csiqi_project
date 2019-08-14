@@ -18,7 +18,7 @@ public class AcController {
 
     @Autowired
     private com.csiqi.service.webService.AcService acService;
-    @CrossOrigin
+    @CrossOrigin(origins = "http://127.0.0.1:8080", maxAge = 3600)
     @ResponseBody
     @RequestMapping("/acList")
     public Object acList(
@@ -32,7 +32,7 @@ public class AcController {
         return Vos;
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://127.0.0.1:8080", maxAge = 3600)
     @ResponseBody
     @RequestMapping("/acAdd")
     public Object acAdd(@Valid @RequestBody AcAdminVo av, BindingResult bindingResult){

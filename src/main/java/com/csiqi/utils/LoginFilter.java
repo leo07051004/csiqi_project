@@ -26,20 +26,30 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = ((HttpServletRequest)servletRequest);
-        HttpServletResponse resp = ((HttpServletResponse)servletResponse);
+        HttpServletResponse response=((HttpServletResponse)servletResponse);
         HttpSession session = req.getSession();
+        Object csiqiLoginFlag=session.getAttribute("csiqiLoginFlag");
         String uri = req.getRequestURI();
+
+       String origin = req.getHeader("Origin");
+        if(origin == null) {
+            origin = req.getHeader("Referer");
+        }
+        response.setHeader("Access-Control-Allow-Origin", origin);//这里不能写*，*代表接受所有域名访问，如写*则下面一行代码无效。谨记
+        response.setHeader("Access-Control-Allow-Credentials", "true");//true代表允许携带cookie
+
+
         if(uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{
-            Object loginId = session.getAttribute("loginId");
-            if(loginId == null ){
-                log.debug("filter失败:"+uri);
-            }else{
-                log.debug("filter成功:"+uri);
-            }
-            log.debug("loginId="+loginId);
             //resp.sendRedirect(req.getContextPath()+"/commons/warn.jsp"); //重定向到错误页面
+            if(csiqiLoginFlag!=null&& !"".equals(csiqiLoginFlag)){
+                //CookieUtil.setCookie(req,response);
+                log.debug("success--csiqiLoginFlag:"+csiqiLoginFlag);
+                filterChain.doFilter(servletRequest, servletResponse);
+            }else{
+                log.debug("error---");
+            }
         }
     }
 
