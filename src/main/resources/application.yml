@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    name: mysql_test
+    name: ideadb
     type: com.alibaba.druid.pool.DruidDataSource
     #druid相关配置
     druid:
@@ -13,7 +13,7 @@ spring:
       filters: stat
       driver-class-name: com.mysql.cj.jdbc.Driver
       #基本属性
-      url: jdbc:mysql://127.0.0.1:3306/mysql_test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+      url: jdbc:mysql://127.0.0.1:3306/ideadb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
       username: root
       password: 123456
       #配置初始化大小/最小/最大
