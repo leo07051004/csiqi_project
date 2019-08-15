@@ -31,26 +31,14 @@ public class LoginFilter implements Filter {
         Object csiqiLoginFlag=session.getAttribute("csiqiLoginFlag");
         String uri = req.getRequestURI();
 
-       String origin = req.getHeader("Origin");
-        if(origin == null) {
-            origin = req.getHeader("Referer");
-        }
-        response.setHeader("Access-Control-Allow-Origin", origin);//这里不能写*，*代表接受所有域名访问，如写*则下面一行代码无效。谨记
-        response.setHeader("Access-Control-Allow-Credentials", "true");//true代表允许携带cookie
-        response.setHeader("Access-Control-Allow-Headers", "SecretKey,AppKey,UniqueKey");
-        response.setHeader("Content-Type", "application/json;charset=UTF-8");
-
-
-
         if(uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{
-            filterChain.doFilter(servletRequest, servletResponse);
             //resp.sendRedirect(req.getContextPath()+"/commons/warn.jsp"); //重定向到错误页面
             if(csiqiLoginFlag!=null&& !"".equals(csiqiLoginFlag)){
                 //CookieUtil.setCookie(req,response);
                 log.debug("success--csiqiLoginFlag:"+csiqiLoginFlag);
-
+                filterChain.doFilter(servletRequest, servletResponse);
             }else{
                 log.debug("error---");
             }
