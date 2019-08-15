@@ -30,18 +30,18 @@ public class LoginFilter implements Filter {
         HttpSession session = req.getSession();
         Object csiqiLoginFlag=session.getAttribute("csiqiLoginFlag");
         String uri = req.getRequestURI();
-
-        if(uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
+        String method=req.getMethod();
+        if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{
             //resp.sendRedirect(req.getContextPath()+"/commons/warn.jsp"); //重定向到错误页面
             if(csiqiLoginFlag!=null&& !"".equals(csiqiLoginFlag)){
-                //CookieUtil.setCookie(req,response);
                 log.debug("success--csiqiLoginFlag:"+csiqiLoginFlag);
                 filterChain.doFilter(servletRequest, servletResponse);
             }else{
                 log.debug("error---");
             }
+
         }
     }
 

@@ -10,13 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import  com.csiqi.utils.ResultFactory;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 @Slf4j
+@CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
 @RestController
 public class LoginController {
     /**
@@ -26,7 +25,6 @@ public class LoginController {
      */
     @Autowired
     private  UserService userService;
-    @CrossOrigin(allowedHeaders = "*",allowCredentials = "true")//
     @RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,HttpServletRequest request,HttpServletResponse response) {
@@ -41,7 +39,6 @@ public class LoginController {
         }
         session.setAttribute("csiqiLoginFlag",loginInfoVo.getUsername());
         log.debug("loginFlag:"+session.getAttribute("csiqiLoginFlag"));
-        //CookieUtil.setCookie(request,response);
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 }
