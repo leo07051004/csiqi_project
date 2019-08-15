@@ -26,7 +26,7 @@ public class LoginController {
      */
     @Autowired
     private  UserService userService;
-    @CrossOrigin(origins = "http://127.0.0.1:8080", maxAge = 3600)//allowCredentials = "true", allowedHeaders = "*"
+    @CrossOrigin(allowedHeaders = "*",allowCredentials = "true")//
     @RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,HttpServletRequest request,HttpServletResponse response) {
