@@ -21,9 +21,9 @@ public class AcController {
     @ResponseBody
     @RequestMapping("/acList")
     public Object acList(
-            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
+            //@RequestParam(name = "pageNum")//, required = false, defaultValue = "1"
             int pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10")
+            //@RequestParam(name = "pageSize")//, required = false, defaultValue = "10"
             int pageSize){
         ModelAndView mv =new ModelAndView();
         PageInfo<AcAdminVo> Vos=acService.acList(pageNum,pageSize);

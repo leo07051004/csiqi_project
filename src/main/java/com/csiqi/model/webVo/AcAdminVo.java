@@ -1,6 +1,8 @@
 package com.csiqi.model.webVo;
 
-public class AcAdminVo {
+import java.io.Serializable;
+
+public class AcAdminVo implements Serializable {
     private int f_ac_id;
     private int f_ac_adminid;
     private String f_ac_adminName;
