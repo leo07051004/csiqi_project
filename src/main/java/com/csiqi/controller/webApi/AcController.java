@@ -19,12 +19,11 @@ public class AcController {
     @Autowired
     private com.csiqi.service.webService.AcService acService;
     @ResponseBody
-    @RequestMapping("/acList")
-    public Object acList(
-            //@RequestParam(name = "pageNum")//, required = false, defaultValue = "1"
-            int pageNum,
-            //@RequestParam(name = "pageSize")//, required = false, defaultValue = "10"
-            int pageSize){
+    @RequestMapping(value = "/acList" )
+    public Object acList(int pageNum,int pageSize){
+        //@RequestParam(name = "pageNum", required = false, defaultValue = "1")//
+        //@RequestParam(name = "pageSize", required = false, defaultValue = "10")//
+
         ModelAndView mv =new ModelAndView();
         PageInfo<AcAdminVo> Vos=acService.acList(pageNum,pageSize);
         mv.addObject("acList",Vos);
