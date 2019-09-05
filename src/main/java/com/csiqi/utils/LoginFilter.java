@@ -28,20 +28,22 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = ((HttpServletRequest)servletRequest);
         HttpServletResponse response=((HttpServletResponse)servletResponse);
         HttpSession session = req.getSession();
-        Object csiqiLoginFlag=session.getAttribute("csiqiLoginFlag");
+        Object csiqiLoginName=session.getAttribute("csiqiLoginName");
+        String redisSessionId=RedisUtils.getString("csiqiLogin","csiqiLoginName"+csiqiLoginName);
         String uri = req.getRequestURI();
         String method=req.getMethod();
+        log.debug("csiqiLogin_sessionId:"+session.getId());
+        log.debug("redis_sessionId:"+redisSessionId);
         if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{
-            //resp.sendRedirect(req.getContextPath()+"/commons/warn.jsp"); //重定向到错误页面
-            if(csiqiLoginFlag!=null&& !"".equals(csiqiLoginFlag)){
-                log.debug("success--csiqiLoginFlag:"+csiqiLoginFlag);
+            if(redisSessionId!=null && redisSessionId.equals(session.getId())){//csiqiLoginName!=null&& !"".equals(csiqiLoginName)
+                log.debug("success:过滤器检测是否已登录csiqiLoginName:"+csiqiLoginName);
                 filterChain.doFilter(servletRequest, servletResponse);
             }else{
-                log.debug("error---");
+                log.debug("error:未登录或登录状态已过期！");//req.getContextPath()+
+                response.sendRedirect("http://127.0.0.1:8080"); //重定向到错误页面
             }
-
         }
     }
 

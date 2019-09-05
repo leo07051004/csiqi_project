@@ -3,6 +3,7 @@ package com.csiqi.controller.webApi;
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
 import com.csiqi.utils.CookieUtil;
+import com.csiqi.utils.RedisUtils;
 import com.csiqi.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
             return ResultFactory.buildFailResult(message);
         }
-        session.setAttribute("csiqiLoginFlag",loginInfoVo.getUsername());
-        log.debug("loginFlag:"+session.getAttribute("csiqiLoginFlag"));
+        session.setAttribute("csiqiLoginName",loginInfoVo.getUsername());//登陆成功 把登录名放进session ,sessionid 放进redis
+        RedisUtils.setString("csiqiLogin","csiqiLoginName"+loginInfoVo.getUsername(),session.getId());
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 }

@@ -4,6 +4,17 @@ server:
     context-path: /csiqi
 
 spring:
+  session:
+      store-type: redis
+      timeout: 3600s
+      redis:
+        flush-mode: on_save
+        namespace: spring:session
+  redis:
+      password: JiLiG087Z
+      host: 127.0.0.1
+      port: 6379
+      timeout: 5000ms
   datasource:
     name: ideadb
     type: com.alibaba.druid.pool.DruidDataSource
