@@ -39,7 +39,7 @@ public class LoginController {
             return ResultFactory.buildFailResult(message);
         }
         session.setAttribute("csiqiLoginName",loginInfoVo.getUsername());//登陆成功 把登录名放进session ,sessionid 放进redis
-        RedisUtils.setString("csiqiLogin","csiqiLoginName"+loginInfoVo.getUsername(),session.getId());
+        RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+loginInfoVo.getUsername(),session.getId(),1800);
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
 }

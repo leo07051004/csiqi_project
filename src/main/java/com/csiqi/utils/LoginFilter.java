@@ -36,9 +36,11 @@ public class LoginFilter implements Filter {
         log.debug("redis_sessionId:"+redisSessionId);
         if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
-        }else{
+        }else{//如果session中id和redis中存放的id相同 则通过
             if(redisSessionId!=null && redisSessionId.equals(session.getId())){//csiqiLoginName!=null&& !"".equals(csiqiLoginName)
                 log.debug("success:过滤器检测是否已登录csiqiLoginName:"+csiqiLoginName);
+                //重置redis 中session 过期时间
+                RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+csiqiLoginName,session.getId(),1800);
                 filterChain.doFilter(servletRequest, servletResponse);
             }else{
                 log.debug("error:未登录或登录状态已过期！");//req.getContextPath()+
