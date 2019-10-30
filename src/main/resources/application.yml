@@ -4,7 +4,10 @@ server:
     context-path: /csiqi
     session:
       timeout: 1800s
-
+      #jsp热部署
+    jsp:
+      init-parameters:
+        development: true
 spring:
   session:
       store-type: redis
@@ -13,10 +16,20 @@ spring:
         flush-mode: on_save
         namespace: spring:session
   redis:
-      password: JiLiG087Z
+      #password: JiLiG087Z
       host: 127.0.0.1
       port: 6379
-      timeout: 5000ms
+      timeout: 10000ms
+  jedis:
+        pool:
+          # 最大空闲连接数
+          max-idle: 500
+          # 最小空闲连接数
+          min-idle: 50
+          # 等待可用连接的最大时间，负数为不限制
+          max-wait:  -1s
+          # 最大活跃连接数，负数为不限制
+          max-active: -1
   datasource:
     name: ideadb
     type: com.alibaba.druid.pool.DruidDataSource
@@ -70,7 +83,7 @@ spring:
      multipart:
       enabled: true
   # 上传文件的临时目录 （一般情况下不用特意修改）
-      location: D:\IDEA\helloWorld\springboot2-demo\imgs
+      location: E:\ideaWorkSpace\uploadImg
   # 上传文件最大为 1M （默认值 1M 根据自身业务自行控制即可）
       max-file-size: 1048576
   # 上传请求最大为 10M（默认值10M 根据自身业务自行控制即可）
