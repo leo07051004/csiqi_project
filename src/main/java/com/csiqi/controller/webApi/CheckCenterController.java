@@ -1,4 +1,4 @@
-package com.csiqi.controller;
+package com.csiqi.controller.webApi;
 
 import com.csiqi.utils.Result;
 import com.csiqi.utils.ResultFactory;
@@ -9,8 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
+@CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
 @Controller
-@RequestMapping("/checkcenter")
+@RequestMapping("/api/checkcenter")
 public class CheckCenterController {
 
     //页面请求

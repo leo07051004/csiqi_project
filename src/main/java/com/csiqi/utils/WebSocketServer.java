@@ -32,20 +32,25 @@ public class WebSocketServer {
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
-    public void onOpen(Session session,@PathParam("userId") String userId) {
+    public void onOpen(Session session, @PathParam("userId") String userId) {
         this.session = session;
-        log.info("userId->"+userId);
-        websocketList.put(userId,this);
-        log.info("websocketList->"+JSON.toJSONString(websocketList));
-        //webSocketSet.add(this);     //加入set中
-        addOnlineCount();           //在线数加1
-        log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
+        log.info("连接开始websocketList->"+JSON.toJSONString(websocketList));
+        WebSocketServer item=websocketList.get(userId);
+        if(item!=null){
+            log.error("userId="+userId+"已存在！");
+            log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
+        }else{
+            websocketList.put(userId,this);
+            addOnlineCount();           //在线数加1
+            log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
+        }
         this.userId=userId;
         try {
             sendMessage(JSON.toJSONString(ResultFactory.buildSuccessResult("连接成功")));
         } catch (IOException e) {
             log.error("websocket IO异常");
         }
+        log.info("连接结束websocketList->"+JSON.toJSONString(websocketList));
     }
 
     /**
