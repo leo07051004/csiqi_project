@@ -10,6 +10,8 @@ public class FriendsVo {
     private String f_friends_status;
     private String f_friends_utime;
     private String f_friends_ctime;
+    private int pageNum;
+    private int pageSize;
 
     public int getF_friends_id() {
         return f_friends_id;
@@ -57,5 +59,21 @@ public class FriendsVo {
 
     public void setF_friends_ctime(String f_friends_ctime) {
         this.f_friends_ctime = f_friends_ctime;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }
