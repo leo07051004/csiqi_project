@@ -12,14 +12,14 @@ public class UserServiceImpl  implements  UserService{
     @Autowired
     private WebUserDao webUserDao;
     @Override
-    public Boolean loginSuccess(String name,String pwd) {
+    public Object loginSuccess(String name,String pwd) {
         UserVo uvo=new UserVo();
         uvo.setUserName(name);
         uvo.setPassword(pwd);
         List<UserVo> uvos = webUserDao.selectUser(uvo);
         if(uvos!=null && uvos.size()>0){
-            return true;
+            return uvos;
         }
-        return false;
+        return null;
     }
 }

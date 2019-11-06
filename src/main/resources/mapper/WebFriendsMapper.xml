@@ -20,7 +20,7 @@
         </trim>
     </insert>
 
-    <select id="selectFriends" resultType="com.csiqi.model.webVo.FriendsVo">
+    <select id="selectFriends" resultType="com.csiqi.model.webVo.UserVo" parameterType="com.csiqi.model.webVo.FriendsVo">
         select u.* from t_user as u,t_friends as f where userId=f_friends_fId
         and f_friends_uId=#{f_friends_uId}
     </select>

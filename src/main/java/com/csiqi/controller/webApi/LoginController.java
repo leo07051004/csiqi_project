@@ -1,5 +1,6 @@
 package com.csiqi.controller.webApi;
 
+import com.csiqi.model.webVo.UserVo;
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
 import com.csiqi.utils.CookieUtil;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
+
 @Slf4j
 @CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
 @RestController
@@ -34,12 +37,13 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[%s]。", bindingResult.getFieldError().getDefaultMessage());
             return ResultFactory.buildFailResult(message);
         }
-        if (!userService.loginSuccess(loginInfoVo.getUsername(),loginInfoVo.getPassword())) {
+        List<UserVo>userVos  = (List<UserVo>)userService.loginSuccess(loginInfoVo.getUsername(),loginInfoVo.getPassword());
+        if (userVos==null ||userVos.size()<=0 ) {
             String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
             return ResultFactory.buildFailResult(message);
         }
         session.setAttribute("csiqiLoginName",loginInfoVo.getUsername());//登陆成功 把登录名放进session ,sessionid 放进redis
         RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+loginInfoVo.getUsername(),session.getId(),1800);
-        return ResultFactory.buildSuccessResult("登陆成功。");
+        return ResultFactory.buildSuccessResult(userVos.get(0));
     }
 }
