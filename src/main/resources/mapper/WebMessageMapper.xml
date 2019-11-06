@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csiqi.dao.webDao.WebMessageDao" >
+    <sql id="BASE_TABLE">
+        t_message
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        f_message_fromUId,f_message_toUId,f_message_content,f_message_cTime,f_message_uTime
+    </sql>
+
+    <insert id="insertMessage" parameterType="com.csiqi.model.webVo.MessageVo">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="BASE_COLUMN"/>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{f_message_fromUId},#{f_message_toUId},#{f_message_toUId},now(),now()
+        </trim>
+    </insert>
+    <select id="selectMessage" resultType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
+        select *from t_message where f_message_status='1' and f_message_toUId=#{f_message_toUId};
+    </select>
+    <select id="readMessageById"  parameterType="com.csiqi.model.webVo.MessageVo"><!--更改未读消息 为已读-->
+        UPDATE t_message SET f_message_status='2' where f_message_fromUId=#{f_message_fromUId} and f_message_toUId=#{f_message_toUId}
+        <![CDATA[and f_message_cTime <=now()]]>
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csiqi.dao.webDao.WebFriendsDao" >
+    <sql id="BASE_TABLE">
+        t_friends
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        f_friends_uId,f_friends_fId,f_friends_utime,f_friends_ctime
+    </sql>
+
+    <insert id="insertFriends" parameterType="com.csiqi.model.webVo.FriendsVo">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="BASE_COLUMN"/>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{f_friends_uId},#{f_friends_fId},now(),now()
+        </trim>
+    </insert>
+
+    <select id="selectFriends" resultType="com.csiqi.model.webVo.FriendsVo">
+        select u.* from t_user as u,t_friends as f where userId=f_friends_fId
+        and f_friends_uId=#{f_friends_uId}
+    </select>
+    <select id="removeFriendsById"  parameterType="com.csiqi.model.webVo.FriendsVo">
+        UPDATE t_friends SET f_friends_status='3' where f_friends_id=#{f_friends_id};
+    </select>
+</mapper>
