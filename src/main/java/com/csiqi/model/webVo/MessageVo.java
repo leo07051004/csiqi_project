@@ -1,9 +1,11 @@
 package com.csiqi.model.webVo;
 
+import java.io.Serializable;
+
 /**
  * Created by cl_kd-user47823 on 2019/11/6.
  */
-public class MessageVo {
+public class MessageVo implements Serializable{
     private int f_message_id;
     private  int  f_message_fromUId;
     private int f_message_toUId;
@@ -11,6 +13,10 @@ public class MessageVo {
     private String f_message_status;
     private String f_message_uTime;
     private String f_message_cTime;
+    private String userName;
+    private int allcount;
+    private int pageNum;
+    private int pageSize;
 
     public int getF_message_id() {
         return f_message_id;
@@ -66,5 +72,37 @@ public class MessageVo {
 
     public void setF_message_cTime(String f_message_cTime) {
         this.f_message_cTime = f_message_cTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getAllcount() {
+        return allcount;
+    }
+
+    public void setAllcount(int allcount) {
+        this.allcount = allcount;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }

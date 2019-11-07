@@ -1,6 +1,8 @@
 package com.csiqi.model.webVo;
 
-public class UserVo {
+import java.io.Serializable;
+
+public class UserVo implements Serializable{
     private int userId;
     private  String  userName;
     private String password;

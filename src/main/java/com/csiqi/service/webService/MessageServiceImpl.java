@@ -16,8 +16,8 @@ public class MessageServiceImpl implements  MessageService{
     @Autowired
     private WebMessageDao mDao;
     @Override
-    public PageInfo<MessageVo>  selectMessage(MessageVo vo, PageInfo pf) {
-        PageHelper.startPage(pf.getPageNum(), pf.getPageSize());
+    public PageInfo<MessageVo>  selectMessage(MessageVo vo) {
+        PageHelper.startPage(vo.getPageNum(), vo.getPageSize());
         List<MessageVo> acs = mDao.selectMessage(vo);
         PageInfo result = new PageInfo(acs);
         return result;
