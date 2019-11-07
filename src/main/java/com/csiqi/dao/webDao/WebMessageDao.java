@@ -8,5 +8,6 @@ import java.util.List;
 public interface WebMessageDao {
     List<MessageVo> selectMessage(MessageVo vo);
     int insertMessage(MessageVo vo);
+    List<MessageVo> selectMessageByFromUId(MessageVo vo);
 
 }

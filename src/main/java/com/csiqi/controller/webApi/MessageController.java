@@ -41,4 +41,10 @@ public class MessageController {
         }
         return ResultFactory.buildSuccessResult("活动新增成功。");
     }
+    @ResponseBody
+    @RequestMapping(value = "/selectMessageByFromUId" )
+    public Object selectMessageByFromUId(@Valid @RequestBody MessageVo vo){
+        PageInfo<MessageVo> Vos=fService.selectMessageByFromUId(vo);
+        return Vos;
+    }
 }

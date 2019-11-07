@@ -19,10 +19,11 @@
             #{f_message_fromUId},#{f_message_toUId},#{f_message_toUId},now(),now()
         </trim>
     </insert>
-    <select id="selectMessage" resultType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
+    <select id="selectMessage" resultType="com.csiqi.model.webVo.MessageVo" parameterType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
         SELECT
             sms.f_message_content,
             sms.f_message_fromUId,
+            sms.f_message_toUId,
             u.userName,
             COUNT(1) AS allcount
         FROM
@@ -36,6 +37,22 @@
             f_message_fromUId
         ORDER BY
             f_message_cTime DESC
+    </select>
+    <select id="selectMessageByFromUId" resultType="com.csiqi.model.webVo.MessageVo" parameterType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
+        SELECT
+        sms.f_message_content,
+        sms.f_message_fromUId,
+        sms.f_message_toUId,
+        sms.f_message_cTime,
+        u.userName
+        FROM
+        t_message AS sms,
+        t_user AS u
+        WHERE
+        f_message_fromUId = userId
+        AND f_message_status = '1'
+        AND f_message_toUId = #{f_message_toUId}
+        AND f_message_fromUId = #{f_message_fromUId}
     </select>
     <select id="readMessageById"  parameterType="com.csiqi.model.webVo.MessageVo"><!--更改未读消息 为已读-->
         UPDATE t_message SET f_message_status='2' where f_message_fromUId=#{f_message_fromUId} and f_message_toUId=#{f_message_toUId}
