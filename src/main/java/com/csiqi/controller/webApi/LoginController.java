@@ -42,8 +42,17 @@ public class LoginController {
             String message = String.format("登陆失败，详细信息[用户名、密码信息不正确]。");
             return ResultFactory.buildFailResult(message);
         }
-        session.setAttribute("csiqiLoginName",loginInfoVo.getUsername());//登陆成功 把登录名放进session ,sessionid 放进redis
-        RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+loginInfoVo.getUsername(),session.getId(),1800);
+        session.setAttribute("userVo",userVos.get(0));//登陆成功 把当前用户放进session
+        session.setAttribute("csiqiLoginName",userVos.get(0).getUserName());//登陆成功 把登录名放进session ,sessionid 放进redis
+        RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800);
         return ResultFactory.buildSuccessResult(userVos.get(0));
+    }
+    @RequestMapping(value = "/api/requestUserVo", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Result requestUserVo(HttpServletRequest request) {
+        HttpSession session=request.getSession();//获取session中的用户信息
+        UserVo uvo=(UserVo)session.getAttribute("userVo");
+        log.debug("uvo:"+uvo.getUserName());
+        return ResultFactory.buildSuccessResult(uvo);
     }
 }

@@ -6,7 +6,7 @@
     </sql>
 
     <sql id="BASE_COLUMN">
-        userId,userName,password,phone
+        userId,userName,password,phone,udate,cdate
     </sql>
 
 
