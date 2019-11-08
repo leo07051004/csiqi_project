@@ -1,9 +1,14 @@
 package com.csiqi.utils;
 
+import com.csiqi.model.webVo.MessageVo;
+import com.csiqi.service.webService.MessageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -12,13 +17,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 /**
  * Created by kd-user47823 on 2019/10/30.
  */
 @Slf4j
-@ServerEndpoint("/websocket/{userId}")
+@ServerEndpoint(value = "/websocket/{userId}",configurator = GetHttpSessionConfigurator.class)
 @Component
 public class WebSocketServer {
+    @Autowired
+    private com.csiqi.service.webService.MessageService fService;
+    private HttpSession httpSession;
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //旧：concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -32,23 +42,31 @@ public class WebSocketServer {
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
-        this.session = session;
-        log.info("连接开始websocketList->"+JSON.toJSONString(websocketList));
-        WebSocketServer item=websocketList.get(userId);
-        if(item!=null){
-            log.error("userId="+userId+"已存在！");
-            log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
-        }else{
-            websocketList.put(userId,this);
-            addOnlineCount();           //在线数加1
-            log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
-        }
-        this.userId=userId;
-        try {
+    public void onOpen(Session session, @PathParam("userId") String userId,EndpointConfig config) {
+       try {
+            this.session = session;
+            log.info("连接开始websocketList->"+JSON.toJSONString(websocketList));
+            WebSocketServer item=websocketList.get(userId);
+            if(item!=null){
+                log.error("userId="+userId+"已存在！");
+                log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
+            }else{
+                websocketList.put(userId,this);
+                addOnlineCount();           //在线数加1
+                log.info("有新窗口开始监听:"+userId+",当前在线人数为" + getOnlineCount());
+            }
+            this.userId=userId;
+            //获取service
+            this.httpSession=(HttpSession)config.getUserProperties().get(HttpSession.class.getName());
+            log.debug("httpSession:"+this.httpSession);
+            if(this.httpSession !=null){
+                ApplicationContext ctx =  WebApplicationContextUtils.getRequiredWebApplicationContext(httpSession.getServletContext());
+                fService=ctx.getBean(MessageServiceImpl.class);
+                log.debug("fService:"+fService);
+            }
             sendMessage(JSON.toJSONString(ResultFactory.buildSuccessResult("连接成功")));
         } catch (IOException e) {
-            log.error("websocket IO异常");
+            log.error("e:"+e.getMessage());
         }
         log.info("连接结束websocketList->"+JSON.toJSONString(websocketList));
     }
@@ -75,21 +93,29 @@ public class WebSocketServer {
         log.info("收到来自窗口"+userId+"的信息:"+message);
         if(StringUtils.isNotBlank(message)){
             JSONArray list=JSONArray.parseArray(message);
+            log.debug("size="+list.size());
             for (int i = 0; i < list.size(); i++) {
                 try {
                     //解析发送的报文
                     JSONObject object = list.getJSONObject(i);
-                    String toUserId=object.getString("toUserId");
-                    String contentText=object.getString("contentText");
-                    object.put("fromUserId",this.userId);
+                    String toUserId=object.getString("f_message_toUId");
+                    String contentText=object.getString("f_message_content");
+                    object.put("f_message_fromUId",this.userId);
+                    MessageVo mvo=new MessageVo();
+                    mvo.setF_message_content(object.getString("f_message_content"));
+                    mvo.setF_message_toUId(object.getIntValue("f_message_toUId"));
+                    mvo.setF_message_fromUId(Integer.parseInt(userId));
+                    log.debug("f_message_content="+mvo.getF_message_content());
+                    fService.insertMessage(mvo);
+                    //此处可以放置相关业务代码，例如存储到数据库
                     //传送给对应用户的websocket
                     if(StringUtils.isNotBlank(toUserId)&& StringUtils.isNotBlank(contentText)){
                         WebSocketServer socketx=websocketList.get(toUserId);
                         //需要进行转换，userId
                         if(socketx!=null){
                             socketx.sendMessage(JSON.toJSONString(ResultFactory.buildSuccessResult(object)));
-                            //此处可以放置相关业务代码，例如存储到数据库
                         }
+
                     }
                 }catch (Exception e){
                     e.printStackTrace();

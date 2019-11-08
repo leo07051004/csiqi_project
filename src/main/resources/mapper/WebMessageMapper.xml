@@ -16,7 +16,7 @@
             <include refid="BASE_COLUMN"/>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{f_message_fromUId},#{f_message_toUId},#{f_message_toUId},now(),now()
+            #{f_message_fromUId},#{f_message_toUId},#{f_message_content},now(),now()
         </trim>
     </insert>
     <select id="selectMessage" resultType="com.csiqi.model.webVo.MessageVo" parameterType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
@@ -35,8 +35,8 @@
         AND f_message_toUId = #{f_message_toUId}
         GROUP BY
             f_message_fromUId
-        ORDER BY
-            f_message_cTime DESC
+       /* ORDER BY
+            f_message_cTime DESC*/
     </select>
     <select id="selectMessageByFromUId" resultType="com.csiqi.model.webVo.MessageVo" parameterType="com.csiqi.model.webVo.MessageVo"><!--查询未读消息 -->
         SELECT
@@ -50,9 +50,11 @@
         t_user AS u
         WHERE
         f_message_fromUId = userId
-        AND f_message_status = '1'
-        AND f_message_toUId = #{f_message_toUId}
-        AND f_message_fromUId = #{f_message_fromUId}
+        /*AND f_message_status = '1'*/
+        AND f_message_toUId in (#{f_message_toUId},#{f_message_fromUId})
+        AND f_message_fromUId in (#{f_message_toUId},#{f_message_fromUId})
+        ORDER BY
+            f_message_cTime ASC
     </select>
     <select id="readMessageById"  parameterType="com.csiqi.model.webVo.MessageVo"><!--更改未读消息 为已读-->
         UPDATE t_message SET f_message_status='2' where f_message_fromUId=#{f_message_fromUId} and f_message_toUId=#{f_message_toUId}

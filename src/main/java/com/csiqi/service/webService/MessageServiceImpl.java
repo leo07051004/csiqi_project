@@ -27,4 +27,12 @@ public class MessageServiceImpl implements  MessageService{
     public int insertMessage(MessageVo vo) {
         return mDao.insertMessage(vo);
     }
+
+    @Override
+    public PageInfo<MessageVo> selectMessageByFromUId(MessageVo vo) {
+        PageHelper.startPage(vo.getPageNum(), vo.getPageSize());
+        List<MessageVo> acs = mDao.selectMessageByFromUId(vo);
+        PageInfo result = new PageInfo(acs);
+        return result;
+    }
 }
