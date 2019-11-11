@@ -20,7 +20,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.debug("filter初始化开始...");
+        log.debug("LoginFilter初始化开始...");
     }
 
     @Override
