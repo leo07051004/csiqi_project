@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
-@CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
+//@CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
 @Controller
 @RequestMapping("/api/checkcenter")
 public class CheckCenterController {
