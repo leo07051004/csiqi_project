@@ -12,8 +12,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value=Exception.class)
     @ResponseBody
     private Result exceptionHandler(HttpServletRequest rq, Exception e){
-        log.error(ResultCode.INTERNAL_SERVER_ERROR+" | "+rq.getRequestURI()+":"+e.getMessage());
-        Result result=ResultFactory.buidResult(ResultCode.INTERNAL_SERVER_ERROR,rq.getRequestURI()+":"+e.getMessage(),null);
+        log.error(ResultCode.INTERNAL_SERVER_ERROR+" | "+rq.getRequestURI()+":"+e);
+        Result result=ResultFactory.buidResult(ResultCode.INTERNAL_SERVER_ERROR,rq.getRequestURI()+":"+e,null);
         return result;
     }
 }
