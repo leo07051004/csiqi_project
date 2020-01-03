@@ -11,7 +11,18 @@ import java.util.stream.Collectors;
  */
 public class TestLambda {
     public static void  main(String [] args){
-        List<Stationery> a= Lists.newArrayList(
+
+        for(int i=1;i<=10;i++){
+            for(int j=10; i<=j; j--)
+                System.out.print(" ");
+            for(int j=1; j<=i; j++)
+                System.out.print("*");
+            for(int j=1; j<i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+
+        /*List<Stationery> a= Lists.newArrayList(
                 new Stationery("閽㈢瑪","绾㈡湰")
                 ,new Stationery("閽㈢瑪","鏈瓙"));
         List<Stationery> b=Lists.newArrayList(
@@ -41,6 +52,6 @@ public class TestLambda {
         List<String> names2=students.stream().filter(Objects::nonNull).map(Student::getName).skip(0).limit(3).collect(Collectors.toList());
         names2.forEach(System.out::println);
         Collections.sort(students,Comparator.comparing(Student::getAge));
-        students.forEach(f->System.out.println(f.getAge()));
+        students.forEach(f->System.out.println(f.getAge()));*/
     }
 }
