@@ -16,7 +16,7 @@ spring:
         flush-mode: on_save
         namespace: spring:session
   redis:
-      #password: JiLiG087Z
+      #password: JiLiG087Z #本地电脑不需要密码，服务器需要
       host: 127.0.0.1
       port: 6379
       timeout: 10000ms
