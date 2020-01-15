@@ -3,13 +3,15 @@ package com.csiqi.service.webService;
 import com.csiqi.dao.webDao.AcDao;
 import com.csiqi.model.webVo.AcAdminVo;
 import com.csiqi.utils.Result;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class AcServiceImpl implements  AcService{
     @Autowired
@@ -17,7 +19,7 @@ public class AcServiceImpl implements  AcService{
     @Override
     public PageInfo<AcAdminVo> acList(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<AcAdminVo> acs = acDao.acList();
+        List<AcAdminVo> acs =  acDao.acList();
         PageInfo result = new PageInfo(acs);
         return result;
     }

@@ -3,7 +3,6 @@ package com.csiqi.controller.webApi;
 import com.csiqi.model.webVo.UserVo;
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
-import com.csiqi.utils.CookieUtil;
 import com.csiqi.utils.RedisUtils;
 import com.csiqi.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +44,7 @@ public class LoginController {
         session.setAttribute("userVo",userVos.get(0));//登陆成功 把当前用户放进session
         session.setAttribute("csiqiLoginName",userVos.get(0).getUserName());//登陆成功 把登录名放进session ,sessionid 放进redis
         RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800);
+        log.debug(userVos.get(0).getUserName()+"登录成功_web_sessionId:"+session.getId());
         return ResultFactory.buildSuccessResult(userVos.get(0));
     }
     @RequestMapping(value = "/api/requestUserVo", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")

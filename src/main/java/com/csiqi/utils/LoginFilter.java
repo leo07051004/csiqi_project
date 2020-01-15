@@ -32,8 +32,8 @@ public class LoginFilter implements Filter {
         String redisSessionId=RedisUtils.getString("csiqiLogin","csiqiLoginName"+csiqiLoginName);
         String uri = req.getRequestURI();
         String method=req.getMethod();
-        log.debug("csiqiLogin_sessionId:"+session.getId());
-        log.debug("redis_sessionId:"+redisSessionId);
+        log.debug("web_sessionId:"+session.getId());
+        log.debug("csiqiLoginName_"+csiqiLoginName+"_reids_sessionId:"+redisSessionId);
         if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{//如果session中id和redis中存放的id相同 则通过

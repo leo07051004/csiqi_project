@@ -18,7 +18,6 @@ public class FriendsServiceImpl implements  FriendsService{
     @Override
     public PageInfo<UserVo> friendsList(FriendsVo vo) {
         PageHelper.startPage(vo.getPageNum(), vo.getPageSize());
-        log.debug("friends_uId=="+vo.getF_friends_uId());
         List<UserVo> acs = fDao.selectFriends(vo);
         PageInfo result = new PageInfo(acs);
         return result;

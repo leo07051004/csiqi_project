@@ -6,6 +6,8 @@ import com.csiqi.utils.ResultFactory;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ public class FriendsController {
     private com.csiqi.service.webService.FriendsService fService;
     @ResponseBody
     @RequestMapping(value = "/friendsList" )
+    @Cacheable(cacheNames = "FriendsController")
     public Object friendsList(@Valid @RequestBody FriendsVo pf){
         //@RequestParam(name = "pageNum", required = false, defaultValue = "1")//
         //@RequestParam(name = "pageSize", required = false, defaultValue = "10")//
@@ -29,6 +32,7 @@ public class FriendsController {
 
     @ResponseBody
     @RequestMapping("/insertFriends")
+    @CacheEvict(cacheNames = "FriendsController", allEntries=true)
     public Object acAdd(@Valid @RequestBody FriendsVo av, BindingResult bindingResult){
         int Vos=fService.insertFriends(av);
         if (bindingResult.hasErrors()) {

@@ -76,4 +76,18 @@ public class FriendsVo {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "FriendsVo{" +
+                "f_friends_id=" + f_friends_id +
+                ", f_friends_uId=" + f_friends_uId +
+                ", f_friends_fId=" + f_friends_fId +
+                ", f_friends_status='" + f_friends_status + '\'' +
+                ", f_friends_utime='" + f_friends_utime + '\'' +
+                ", f_friends_ctime='" + f_friends_ctime + '\'' +
+                ", pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }

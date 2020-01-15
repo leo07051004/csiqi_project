@@ -105,4 +105,21 @@ public class MessageVo implements Serializable{
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "MessageVo{" +
+                "f_message_id=" + f_message_id +
+                ", f_message_fromUId=" + f_message_fromUId +
+                ", f_message_toUId=" + f_message_toUId +
+                ", f_message_content='" + f_message_content + '\'' +
+                ", f_message_status='" + f_message_status + '\'' +
+                ", f_message_uTime='" + f_message_uTime + '\'' +
+                ", f_message_cTime='" + f_message_cTime + '\'' +
+                ", userName='" + userName + '\'' +
+                ", allcount=" + allcount +
+                ", pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }
