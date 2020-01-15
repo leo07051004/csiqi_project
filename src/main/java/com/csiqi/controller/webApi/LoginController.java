@@ -3,10 +3,10 @@ package com.csiqi.controller.webApi;
 import com.csiqi.model.webVo.UserVo;
 import com.csiqi.model.webVo.VueLoginInfoVo;
 import com.csiqi.service.webService.UserService;
-import com.csiqi.utils.RedisUtils;
 import com.csiqi.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import  com.csiqi.utils.ResultFactory;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 //@CrossOrigin(allowedHeaders = "*",allowCredentials = "true",origins = "http://127.0.0.1:8080", maxAge = 3600)
@@ -28,6 +29,8 @@ public class LoginController {
      */
     @Autowired
     private  UserService userService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Result login(@Valid @RequestBody VueLoginInfoVo loginInfoVo, BindingResult bindingResult ,HttpServletRequest request,HttpServletResponse response) {
@@ -43,7 +46,8 @@ public class LoginController {
         }
         session.setAttribute("userVo",userVos.get(0));//登陆成功 把当前用户放进session
         session.setAttribute("csiqiLoginName",userVos.get(0).getUserName());//登陆成功 把登录名放进session ,sessionid 放进redis
-        RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800);
+        stringRedisTemplate.opsForValue().set("csiqiLogin:csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800, TimeUnit.SECONDS);
+        //RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800);
         log.debug(userVos.get(0).getUserName()+"登录成功_web_sessionId:"+session.getId());
         return ResultFactory.buildSuccessResult(userVos.get(0));
     }

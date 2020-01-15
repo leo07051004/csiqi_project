@@ -3,6 +3,8 @@ package com.csiqi.utils;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by kd-user47823 on 2019/8/13.
@@ -17,7 +20,8 @@ import java.io.IOException;
 @Slf4j
 @WebFilter(filterName = "myFilter",urlPatterns = "/*")
 public class LoginFilter implements Filter {
-
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.debug("LoginFilter初始化开始...");
@@ -29,7 +33,8 @@ public class LoginFilter implements Filter {
         HttpServletResponse response=((HttpServletResponse)servletResponse);
         HttpSession session = req.getSession();
         Object csiqiLoginName=session.getAttribute("csiqiLoginName");
-        String redisSessionId=RedisUtils.getString("csiqiLogin","csiqiLoginName"+csiqiLoginName);
+        String redisSessionId=stringRedisTemplate.opsForValue().get("csiqiLogin:csiqiLoginName"+csiqiLoginName);
+        //String redisSessionId=RedisUtils.getString("csiqiLogin","csiqiLoginName"+csiqiLoginName);
         String uri = req.getRequestURI();
         String method=req.getMethod();
         log.debug("web_sessionId:"+session.getId());
@@ -40,7 +45,8 @@ public class LoginFilter implements Filter {
             if(redisSessionId!=null && redisSessionId.equals(session.getId())){//csiqiLoginName!=null&& !"".equals(csiqiLoginName)
                 log.debug("success:过滤器检测是否已登录csiqiLoginName:"+csiqiLoginName);
                 //重置redis 中session 过期时间
-                RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+csiqiLoginName,session.getId(),1800);
+                stringRedisTemplate.opsForValue().set("csiqiLogin:csiqiLoginName"+csiqiLoginName,session.getId(),1800, TimeUnit.SECONDS);
+                //RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+csiqiLoginName,session.getId(),1800);
                 filterChain.doFilter(servletRequest, servletResponse);
             }else{
                 log.debug("error:未登录或登录状态已过期！");//req.getContextPath()+
