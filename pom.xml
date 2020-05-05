@@ -88,6 +88,12 @@
         <artifactId>jedis</artifactId>
         <version>2.9.0</version>
     </dependency>
+    <!--lettuce pool 缓存连接池-->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-pool2</artifactId>
+        <version>2.5.0</version>
+    </dependency>
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -121,14 +127,15 @@
     <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>
-        <version>1.2.62</version>
+        <version>1.2.67</version>
     </dependency>
     <dependency>
         <groupId>com.google.collections</groupId>
         <artifactId>google-collections</artifactId>
         <version>1.0</version>
     </dependency>
-    <!--<dependency>
+    <!--
+     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-security</artifactId>
     </dependency>-->
