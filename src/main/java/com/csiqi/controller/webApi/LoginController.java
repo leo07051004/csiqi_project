@@ -46,8 +46,7 @@ public class LoginController {
         }
         session.setAttribute("userVo",userVos.get(0));//登陆成功 把当前用户放进session
         session.setAttribute("csiqiLoginName",userVos.get(0).getUserName());//登陆成功 把登录名放进session ,sessionid 放进redis
-        stringRedisTemplate.opsForValue().set("csiqiLogin:csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800, TimeUnit.SECONDS);
-        //RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800);
+        //stringRedisTemplate.opsForValue().set("csiqiLogin:csiqiLoginName"+userVos.get(0).getUserName(),session.getId(),1800, TimeUnit.SECONDS);
         log.debug(userVos.get(0).getUserName()+"登录成功_web_sessionId:"+session.getId());
         return ResultFactory.buildSuccessResult(userVos.get(0));
     }
