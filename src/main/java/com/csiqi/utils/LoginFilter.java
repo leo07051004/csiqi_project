@@ -34,32 +34,19 @@ public class LoginFilter implements Filter {
         HttpServletResponse response=((HttpServletResponse)servletResponse);
         HttpSession session = req.getSession();
         Object csiqiLoginName=session.getAttribute("csiqiLoginName");
-        //String redisSessionId=stringRedisTemplate.opsForValue().get("csiqiLogin:csiqiLoginName"+csiqiLoginName);
-        //String redisSessionId=RedisUtils.getString("csiqiLogin","csiqiLoginName"+csiqiLoginName);
         String uri = req.getRequestURI();
         String method=req.getMethod();
         log.debug("web_sessionId:"+session.getId());
-        //log.debug("csiqiLoginName_"+csiqiLoginName+"_reids_sessionId:"+redisSessionId);
-        if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0) { //不过滤的页面
+        if("OPTIONS".equals(method)||uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".png")|| uri.indexOf("/js/")>=0 || uri.indexOf("/css/")>=0|| uri.indexOf("/api/login")>=0|| uri.indexOf("druid")>=0|| uri.indexOf("/wechat")>=0) { //不过滤的页面
             filterChain.doFilter(servletRequest, servletResponse);
         }else{//如果session中id和redis中存放的id相同 则通过
-            /*if(redisSessionId!=null && redisSessionId.equals(session.getId())){//csiqiLoginName!=null&& !"".equals(csiqiLoginName)
-                log.debug("success:过滤器检测是否已登录csiqiLoginName:"+csiqiLoginName);
-                //重置redis 中session 过期时间
-                stringRedisTemplate.opsForValue().set("csiqiLogin:csiqiLoginName"+csiqiLoginName,session.getId(),1800, TimeUnit.SECONDS);
-                //RedisUtils.setStringCountdown("csiqiLogin","csiqiLoginName"+csiqiLoginName,session.getId(),1800);
-                filterChain.doFilter(servletRequest, servletResponse);
-            }else{
-                log.debug("error:未登录或登录状态已过期！");//req.getContextPath()+
-                response.sendRedirect("http://127.0.0.1:8080"); //重定向到错误页面
-            }*/
             UserVo uv=(UserVo)session.getAttribute("userVo");//在Spring Boot中 集成 Spring Session 统一把session存入redis
             if(csiqiLoginName!=null && csiqiLoginName.equals(uv.getUserName())){
                 log.debug(csiqiLoginName+"已登录.");
                 filterChain.doFilter(servletRequest, servletResponse);
             }else{
                 log.debug(csiqiLoginName+"未登录或登录状态已过期！");//req.getContextPath()+
-                response.sendRedirect("http://127.0.0.1:8080"); //重定向到错误页面
+                response.sendRedirect("http://127.0.0.1:8081"); //重定向到错误页面
             }
         }
     }
